@@ -1,0 +1,16 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/Kompik24.Web/.vs/Kompik24.Web/DesignTimeBuild/.dtbcache.v2
+*.vsidx
+/Kompik24.Web/.vs/Kompik24.Web/FileContentIndex/306e270e-ffdb-48a6-b77b-84e368d48f33.vsidx
+/Kompik24.Web/.vs/Kompik24.Web/FileContentIndex/a6ec0ee6-2925-4b24-9734-07e025be5693.vsidx
+/Kompik24.Api/bin/Debug/net6.0/Kompik24.Api.dll
+/Kompik24.Api/bin/Debug/net6.0/Kompik24.Api.pdb
+/Kompik24.Api/obj/Debug/net6.0/ref/Kompik24.Api.dll
+/Kompik24.Api/obj/Debug/net6.0/Kompik24.Api.pdb
+/Kompik24.Api/obj/Debug/net6.0/Kompik24.Api.dll
+/Kompik24.Api/obj/Debug/net6.0/Kompik24.Api.csproj.CoreCompileInputs.cache
+/Kompik24.Web/.vs/Kompik24.Web/v17/.suo
+/Kompik24.Api/obj/Debug/net6.0/refint/Kompik24.Api.dll
