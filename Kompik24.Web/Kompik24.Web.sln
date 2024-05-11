@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33110.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kompik24.Web", "Kompik24.Web.csproj", "{660D87BD-60A7-4CAB-9C28-E6CFA3998820}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kompik24.Api", "..\Kompik24.Api\Kompik24.Api.csproj", "{32F5A682-1092-4388-A0B0-8A71F53AA613}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{660D87BD-60A7-4CAB-9C28-E6CFA3998820}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{660D87BD-60A7-4CAB-9C28-E6CFA3998820}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{660D87BD-60A7-4CAB-9C28-E6CFA3998820}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{660D87BD-60A7-4CAB-9C28-E6CFA3998820}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32F5A682-1092-4388-A0B0-8A71F53AA613}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32F5A682-1092-4388-A0B0-8A71F53AA613}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32F5A682-1092-4388-A0B0-8A71F53AA613}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32F5A682-1092-4388-A0B0-8A71F53AA613}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {15081C21-3E64-45E7-B558-E5455F75CF8B}
+	EndGlobalSection
+EndGlobal

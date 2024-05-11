@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Kompik24.Api.props" />
+</Project>
