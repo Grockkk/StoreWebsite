@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ShopOnline.Api.Entities;
+using Kompik24.Api.Entities;
 
-namespace ShopOnline.Api.Data
+namespace Kompik24.Api.Data
 {
     public class Kompik24DbContext:DbContext
     {

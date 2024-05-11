@@ -1,8 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Kompik24.Api.Entities
+namespace Kompik24.Models.Dtos
 {
-    public class Product
+    public class ProductDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -11,9 +15,7 @@ namespace Kompik24.Api.Entities
         public decimal Price { get; set; }
         public int Qty { get; set; }
         public int CategoryId { get; set; }
-
-        [ForeignKey("CategoryId")]
-        public ProductCategory ProductCategory { get; set; }
+        public string CategoryName { get; set; }
 
     }
 }

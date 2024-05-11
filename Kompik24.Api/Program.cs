@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using ShopOnline.Api.Data;
+using Kompik24.Api.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +13,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContextPool<Kompik24DbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("KompikConnetion"))
 );
+
+
 
 var app = builder.Build();
 

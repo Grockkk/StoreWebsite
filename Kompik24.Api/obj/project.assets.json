@@ -866,6 +866,16 @@
             "rid": "win"
           }
         }
+      },
+      "Kompik24.Models/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/Kompik24.Models.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Kompik24.Models.dll": {}
+        }
       }
     }
   },
@@ -2210,10 +2220,16 @@
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
+    },
+    "Kompik24.Models/1.0.0": {
+      "type": "project",
+      "path": "../Kompik24.Models/Kompik24.Models.csproj",
+      "msbuildProject": "../Kompik24.Models/Kompik24.Models.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "Kompik24.Models >= 1.0.0",
       "Microsoft.EntityFrameworkCore.SqlServer >= 6.0.1",
       "Microsoft.EntityFrameworkCore.Tools >= 6.0.1",
       "Swashbuckle.AspNetCore >= 6.2.3"
@@ -2250,7 +2266,11 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Studia\\technikiInternetowe2\\projekt\\Kompik24\\Kompik24.Models\\Kompik24.Models.csproj": {
+              "projectPath": "C:\\Studia\\technikiInternetowe2\\projekt\\Kompik24\\Kompik24.Models\\Kompik24.Models.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

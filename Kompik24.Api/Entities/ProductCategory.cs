@@ -1,4 +1,4 @@
-﻿namespace ShopOnline.Api.Entities
+﻿namespace Kompik24.Api.Entities
 {
     public class ProductCategory
     {
