@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
 using ShopOnline.Api.Data;
@@ -13,9 +15,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
 builder.Services.AddDbContextPool<ShopOnlineDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ShopOnlineConnection"))
+    options.UseSqlServer(builder.Configuration.GetConnectionString("KompikConnection"))
 );
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
