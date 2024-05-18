@@ -7,6 +7,7 @@ namespace ShopOnline.Web.Services.Contracts
         Task<IEnumerable<UserDto>> GetUsers();
         Task<UserDto> GetUser(int id);
         Task<UserDto> AddUser(UserDto user);
+        Task DeleteUser(int userId); // Nowa metoda
 
     }
 }

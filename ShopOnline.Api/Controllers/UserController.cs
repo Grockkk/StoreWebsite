@@ -125,5 +125,25 @@ namespace ShopOnline.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            try
+            {
+                var userToDelete = await userRepository.GetUser(id);
+                if (userToDelete == null)
+                {
+                    return NotFound();
+                }
+
+                await userRepository.DeleteUser(id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                // Log exception
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
     }
 }

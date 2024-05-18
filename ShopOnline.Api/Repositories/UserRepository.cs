@@ -70,5 +70,15 @@ namespace ShopOnline.Api.Repositories
                 throw new Exception("Error updating user", ex);
             }
         }
+        public async Task DeleteUser(int id)
+        {
+            var user = await GetUser(id);
+            if (user != null)
+            {
+                shopOnlineDbContext.Users.Remove(user);
+                await shopOnlineDbContext.SaveChangesAsync();
+            }
+        }
+
     }
 }

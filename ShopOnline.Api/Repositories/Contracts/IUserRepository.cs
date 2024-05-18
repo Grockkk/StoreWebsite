@@ -10,6 +10,6 @@ namespace ShopOnline.Api.Repositories.Contracts
         Task<User> GetUser(int id);
         Task<User> AddUser(UserDto userToAdd);
         Task<User> UpdateUser(User user);
-
+        Task DeleteUser(int id); // Dodaj tę metodę
     }
 }

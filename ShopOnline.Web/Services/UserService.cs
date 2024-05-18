@@ -102,6 +102,10 @@ namespace ShopOnline.Web.Services
                 throw;
             }
         }
+        public async Task DeleteUser(int userId)
+        {
+            await httpClient.DeleteAsync($"api/User/{userId}");
+        }
 
     }
 }
