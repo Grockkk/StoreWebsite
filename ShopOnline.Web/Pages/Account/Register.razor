@@ -1,4 +1,5 @@
 ﻿@page "/register"
+@using Microsoft.AspNetCore.WebUtilities;
 @using ShopOnline.Models.Dtos
 @using ShopOnline.Web.Services
 @inject IUserService userService
@@ -83,5 +84,38 @@
         {
             errorMessage = $"Błąd: {ex.Message}";
         }
+    }
+    @code {
+        // Dodaj pole do przechowywania identyfikatora użytkownika
+        private int userId;
+
+        protected override void OnInitialized()
+        {
+            // Odczytaj parametr userId z adresu URL
+            var uri = navigationManager.ToAbsoluteUri(navigationManager.Uri);
+            if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("userId", out var userIdStr))
+            {
+                userId = Convert.ToInt32(userIdStr);
+                // Pobierz dane użytkownika do edycji
+                LoadUserData(userId);
+            }
+        }
+
+        private async Task LoadUserData(int userId)
+        {
+            // Wczytaj dane użytkownika na podstawie userId i zainicjuj pola formularzaal
+            var user = await userService.GetUser(userId);
+            if (user != null)
+            {
+                newUser.Password = user.Password;
+                newUser.Email = user.Email;
+                newUser.UserName = user.UserName;
+                newUser.Miasto = user.Miasto;
+                newUser.Ulica = user.Ulica;
+                newUser.NumerDomu = user.NumerDomu;
+            }
+        }
+
+        // Metoda RegisterUser() pozostaje bez zmian, ponieważ nadal będzie służyć do zapisu zmian użytkownika.
     }
 }

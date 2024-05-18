@@ -79,6 +79,5 @@ namespace ShopOnline.Api.Repositories
                 await shopOnlineDbContext.SaveChangesAsync();
             }
         }
-
     }
 }

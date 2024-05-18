@@ -106,6 +106,19 @@ namespace ShopOnline.Web.Services
         {
             await httpClient.DeleteAsync($"api/User/{userId}");
         }
+        public async Task<UserDto> UpdateUser(UserDto user)
+        {
+            try
+            {
+                var response = await httpClient.PutAsJsonAsync($"api/user/{user.Id}", user);
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<UserDto>();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Failed to update user.", ex);
+            }
+        }
 
     }
 }
