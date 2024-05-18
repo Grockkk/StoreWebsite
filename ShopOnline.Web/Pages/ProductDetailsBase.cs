@@ -4,7 +4,7 @@ using ShopOnline.Web.Services.Contracts;
 
 namespace ShopOnline.Web.Pages
 {
-    public class ProductDetailsBase:ComponentBase
+    public class ProductDetailsBase : ComponentBase
     {
         [Parameter]
         public int Id { get; set; }
@@ -24,7 +24,6 @@ namespace ShopOnline.Web.Pages
         [Inject]
         public IManageCartItemsLocalStorageService ManageCartItemsLocalStorageService { get; set; }
 
-
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
@@ -39,6 +38,7 @@ namespace ShopOnline.Web.Pages
             try
             {
                 Product = await ProductService.GetItem(Id);
+                ShoppingCartItems = await ManageCartItemsLocalStorageService.GetCollection();
             }
             catch (Exception ex)
             {
@@ -54,28 +54,37 @@ namespace ShopOnline.Web.Pages
             if (user != null)
             {
                 cartItemToAddDto.CartId = user.Id;
-                await ShoppingCartService.AddItem(cartItemToAddDto);
+                var existingItem = ShoppingCartItems.FirstOrDefault(item => item.ProductId == cartItemToAddDto.ProductId);
+
+                if (existingItem != null)
+                {
+                    existingItem.Qty += cartItemToAddDto.Qty;
+                    existingItem.TotalPrice = existingItem.Price * existingItem.Qty;
+                    await ShoppingCartService.UpdateQty(new CartItemQtyUpdateDto
+                    {
+                        CartItemId = existingItem.Id,
+                        Qty = existingItem.Qty
+                    });
+                }
+                else
+                {
+                    var addedItem = await ShoppingCartService.AddItem(cartItemToAddDto);
+                    ShoppingCartItems.Add(new CartItemDto
+                    {
+                        Id = addedItem.Id,
+                        ProductId = addedItem.ProductId,
+                        ProductName = Product.Name,
+                        ProductImageURL = Product.ImageURL,
+                        Price = Product.Price,
+                        Qty = cartItemToAddDto.Qty,
+                        TotalPrice = Product.Price * cartItemToAddDto.Qty
+                    });
+                }
+
+                await ManageCartItemsLocalStorageService.SaveCollection(ShoppingCartItems);
+
+                ShoppingCartService.RaiseEventOnShoppingCartChanged(ShoppingCartItems.Sum(i => i.Qty));
             }
         }
-
-        private async Task<ProductDto> GetProductById(int id)
-        {
-            var productDtos = await ManageProductsLocalStorageService.GetCollection();
-
-            if(productDtos!=null)
-            {
-                return productDtos.SingleOrDefault(p => p.Id == id);
-            }
-            return null;
-        }
-        private async Task <int> GetCartId()
-        {
-            // Zakładamy, że `GetCartIdByUserId` jest metodą w serwisie ShoppingCartService,
-            // która zwraca CartId na podstawie UserId
-            var cart = await UserService.GetUsers();
-            var id = cart.FirstOrDefault(u => u.Autentykacja == true);
-            return id.Id;
-        }
-
     }
 }
