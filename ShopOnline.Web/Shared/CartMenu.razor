@@ -1,10 +1,23 @@
-﻿@implements IDisposable
+﻿@using ShopOnline.Web.Services;
+@implements IDisposable
+@inherits CartMenuBase
 @inject IShoppingCartService shoppingCartService
+@inject IUserService userService
+@inject NavigationManager navigationManager
 
-<a href="ShoppingCart" class="btn btn-info" >
-    <i class="oi oi-cart"></i>&nbsp;Cart
-    <span class="badge bg-dark">@shoppingCartItemCount</span>
-</a>
+@if (User != null)
+{
+    <a href="/profile" class="btn btn-success">Profil</a>
+    <a href="ShoppingCart" class="btn btn-info">
+        <i class="oi oi-cart"></i>&nbsp;Cart
+        <span class="badge bg-dark">@shoppingCartItemCount</span>
+    </a>
+
+}
+else
+{
+    <a href="/login" class="btn btn-primary">Login</a>
+}
 
 @code {
     private int shoppingCartItemCount = 0;
@@ -24,5 +37,4 @@
     {
         shoppingCartService.OnShoppingCartChanged -= ShoppingCartChanged;
     }
-
 }

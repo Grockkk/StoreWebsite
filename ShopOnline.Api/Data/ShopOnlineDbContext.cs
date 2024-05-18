@@ -381,18 +381,42 @@ namespace ShopOnline.Api.Data
             //Add users
             modelBuilder.Entity<User>().HasData(new User
 			{
-				Id = 1,
-				UserName = "Bob"
+                Id = 1,
+				UserName = "Bob",
+                Password = "1234",
+                Autentykacja = false,
+                Email= "Bob@kompik.pl",
+                Miasto = "Kraków",
+                Ulica = "Boczna",
+                NumerDomu = "15"
 
-			});
+            });
+            modelBuilder.Entity<User>().HasData(new User
+            {
+                Id = 2,
+                UserName = "Adam",
+                Password = "1234",
+                Autentykacja = false,
+                Email = "Adam@kompik.pl",
+                Miasto = "Kraków",
+                Ulica = "Pawia",
+                NumerDomu = "5"
 
-			//Create Shopping Cart for  every Users
-			modelBuilder.Entity<Cart>().HasData(new Cart
+            });
+
+            //Create Shopping Cart for  every Users
+            modelBuilder.Entity<Cart>().HasData(new Cart
 			{
 				Id = 1,
 				UserId = 1
 
 			});
+            modelBuilder.Entity<Cart>().HasData(new Cart
+            {
+                Id = 2,
+                UserId = 2
+
+            });
 
             //Add Product Categories
             modelBuilder.Entity<ProductCategory>().HasData(new ProductCategory

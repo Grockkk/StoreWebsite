@@ -13,6 +13,9 @@ namespace ShopOnline.Web.Pages
         public IProductService ProductService { get; set; }
 
         [Inject]
+        public IUserService UserService { get; set; }
+
+        [Inject]
         public IShoppingCartService ShoppingCartService { get; set; }
 
         [Inject]
@@ -35,8 +38,7 @@ namespace ShopOnline.Web.Pages
         {
             try
             {
-                ShoppingCartItems = await ManageCartItemsLocalStorageService.GetCollection();
-                Product = await GetProductById(Id);
+                Product = await ProductService.GetItem(Id);
             }
             catch (Exception ex)
             {
@@ -46,22 +48,13 @@ namespace ShopOnline.Web.Pages
 
         protected async Task AddToCart_Click(CartItemToAddDto cartItemToAddDto)
         {
-            try
+            var users = await UserService.GetUsers();
+            var user = users.SingleOrDefault(u => u.Autentykacja);
+
+            if (user != null)
             {
-               var cartItemDto = await ShoppingCartService.AddItem(cartItemToAddDto);
-
-                if (cartItemDto != null)
-                {
-                    ShoppingCartItems.Add(cartItemDto);
-                    await ManageCartItemsLocalStorageService.SaveCollection(ShoppingCartItems);
-                }
-
-               NavigationManager.NavigateTo("/ShoppingCart");
-            }
-            catch (Exception)
-            {
-
-                //Log Exception
+                cartItemToAddDto.CartId = user.Id;
+                await ShoppingCartService.AddItem(cartItemToAddDto);
             }
         }
 
@@ -74,6 +67,14 @@ namespace ShopOnline.Web.Pages
                 return productDtos.SingleOrDefault(p => p.Id == id);
             }
             return null;
+        }
+        private async Task <int> GetCartId()
+        {
+            // Zakładamy, że `GetCartIdByUserId` jest metodą w serwisie ShoppingCartService,
+            // która zwraca CartId na podstawie UserId
+            var cart = await UserService.GetUsers();
+            var id = cart.FirstOrDefault(u => u.Autentykacja == true);
+            return id.Id;
         }
 
     }

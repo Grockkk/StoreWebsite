@@ -1,13 +1,12 @@
-﻿
-
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using ShopOnline.Models.Dtos;
 using ShopOnline.Web.Services.Contracts;
+using System.Linq;
 
 namespace ShopOnline.Web.Pages
 {
-    public class CheckoutBase:ComponentBase
+    public class CheckoutBase : ComponentBase
     {
         [Inject]
         public IJSRuntime Js { get; set; }
@@ -21,11 +20,13 @@ namespace ShopOnline.Web.Pages
         protected decimal PaymentAmount { get; set; }
 
         [Inject]
+        public IUserService userService { get; set; }
+
+        [Inject]
         public IShoppingCartService ShoppingCartService { get; set; }
 
         [Inject]
         public IManageCartItemsLocalStorageService ManageCartItemsLocalStorageService { get; set; }
-
 
         protected string DisplayButtons { get; set; } = "block";
 
@@ -35,25 +36,35 @@ namespace ShopOnline.Web.Pages
             {
                 ShoppingCartItems = await ManageCartItemsLocalStorageService.GetCollection();
 
-                if (ShoppingCartItems != null && ShoppingCartItems.Count() > 0)
+                if (ShoppingCartItems != null && ShoppingCartItems.Any())
                 {
                     Guid orderGuid = Guid.NewGuid();
+                    var users = await userService.GetUsers();
+                    var authenticatedUser = users.SingleOrDefault(p => p.Autentykacja);
 
-                    PaymentAmount = ShoppingCartItems.Sum(p => p.TotalPrice);
-                    TotalQty = ShoppingCartItems.Sum(p => p.Qty);
-                    PaymentDescription = $"O_{HardCoded.UserId}_{orderGuid}";
-
+                    if (authenticatedUser != null)
+                    {
+                        var userId = authenticatedUser.Id;
+                        PaymentAmount = ShoppingCartItems.Sum(p => p.TotalPrice);
+                        TotalQty = ShoppingCartItems.Sum(p => p.Qty);
+                        PaymentDescription = $"O_{userId}_{orderGuid}";
+                    }
+                    else
+                    {
+                        // Użytkownik nie znaleziony
+                        DisplayButtons = "none";
+                    }
                 }
                 else
                 {
                     DisplayButtons = "none";
                 }
-
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //Log exception
-                throw;
+                // Logowanie wyjątku
+                Console.WriteLine($"Exception: {ex.Message}");
+                DisplayButtons = "none";
             }
         }
 
@@ -66,13 +77,11 @@ namespace ShopOnline.Web.Pages
                     await Js.InvokeVoidAsync("initPayPalButton");
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                // Logowanie wyjątku
+                Console.WriteLine($"Exception: {ex.Message}");
             }
         }
-
-
     }
 }

@@ -31,6 +31,23 @@ namespace ShopOnline.Api.Extensions
                     }).ToList();
         
         }
+
+        public static IEnumerable<UserDto> ConvertToDto(this IEnumerable<User> users)
+        {
+            return (from user in users
+                    select new UserDto
+                    {
+                        Id = user.Id,
+                        UserName = user.UserName,
+                        Password = user.Password,
+                        Autentykacja = user.Autentykacja,
+                        Email = user.Email,
+                        Miasto= user.Miasto,
+                        Ulica   = user.Ulica,
+                        NumerDomu = user.NumerDomu
+                    }).ToList();
+
+        }
         public static ProductDto ConvertToDto(this Product product)
                                                    
         {
@@ -45,6 +62,23 @@ namespace ShopOnline.Api.Extensions
                 CategoryId = product.ProductCategory.Id,
                 CategoryName = product.ProductCategory.Name
 
+            };
+
+        }
+
+        public static UserDto ConvertToDto(this User user)
+
+        {
+            return new UserDto
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Password = user.Password,
+                Autentykacja = user.Autentykacja,
+                Email = user.Email,
+                Miasto = user.Miasto,
+                Ulica = user.Ulica,
+                NumerDomu = user.NumerDomu
             };
 
         }

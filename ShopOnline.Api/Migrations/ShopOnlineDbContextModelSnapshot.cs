@@ -41,6 +41,11 @@ namespace ShopOnline.Api.Migrations
                         {
                             Id = 1,
                             UserId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            UserId = 2
                         });
                 });
 
@@ -487,13 +492,38 @@ namespace ShopOnline.Api.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("id");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<bool>("Autentykacja")
+                        .HasColumnType("bit")
+                        .HasColumnName("autentykacja");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("email");
+
+                    b.Property<string>("Miasto")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("adres_miasto");
+
+                    b.Property<string>("NumerDomu")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("adres_dom");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("password");
+
+                    b.Property<string>("Ulica")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("adres_ulica");
+
                     b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("user_name");
 
                     b.HasKey("Id");
 
@@ -503,7 +533,24 @@ namespace ShopOnline.Api.Migrations
                         new
                         {
                             Id = 1,
+                            Autentykacja = false,
+                            Email = "Bob@kompik.pl",
+                            Miasto = "Kraków",
+                            NumerDomu = "15",
+                            Password = "1234",
+                            Ulica = "Boczna",
                             UserName = "Bob"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Autentykacja = false,
+                            Email = "Adam@kompik.pl",
+                            Miasto = "Kraków",
+                            NumerDomu = "5",
+                            Password = "1234",
+                            Ulica = "Pawia",
+                            UserName = "Adam"
                         });
                 });
 

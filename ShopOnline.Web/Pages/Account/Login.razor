@@ -1,0 +1,64 @@
+﻿@page "/login"
+@using System.Web
+@using ShopOnline.Web
+@using Microsoft.AspNetCore.Http;
+@using ShopOnline.Web.Services;
+@using System.Security.Claims;
+@inject IUserService userService
+@inject HttpClient httpClient
+@inject NavigationManager navigationManager
+
+<div>
+    <div class="col-lg-4 offset-lg-4 pt-4 pb-4 border">
+        <EditForm Model="@Model" OnValidSubmit="Authenticate" FormName="LoginForm">
+            <DataAnnotationsValidator />
+            <div class="mb-3 text-center flex-column">
+                <h3>LOGIN</h3>
+            </div>
+            <div class="mb-3 ">
+                <label>Email</label>
+                <InputText @bind-Value="Model.Email" class="form-control" placeholder="Email"></InputText>
+                <ValidationMessage For="() => Model.Email" />
+            </div>
+            <div class="mb-3 ">
+                <label>Password</label>
+                <InputText @bind-Value="Model.Password" type="password" class="form-control" placeholder="Password"></InputText>
+                <ValidationMessage For="() => Model.Password" />
+            </div>
+            <div class="mb-3 text-center">
+                <span class="text-danger">@errorMessage</span>
+            </div>
+            <div class="mb-3 d-grid gap-2">
+                <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+            <a href="/register">Nie masz konta? Załóż tutaj</a>
+
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    public LoginViewModel Model { get; set; } = new();
+
+    private string? errorMessage;
+
+    private async Task Authenticate()
+    {
+        // Pobierz ID zalogowanego użytkownika
+        var user = (await userService.GetUsers()).FirstOrDefault(x => x.Email == Model.Email);
+
+        // Wywołaj metodę ToggleAuthentication
+        var toggleResponse = await httpClient.PutAsync($"api/user/{user.Id}/toggle-authentication", null);
+
+        // Sprawdź, czy metoda ToggleAuthentication zakończyła się sukcesem
+        if (!toggleResponse.IsSuccessStatusCode)
+        {
+            errorMessage = "Failed to toggle authentication status.";
+            return;
+        }
+
+        // Przekieruj do strony głównej
+        navigationManager.NavigateTo("/", true);
+    }
+}

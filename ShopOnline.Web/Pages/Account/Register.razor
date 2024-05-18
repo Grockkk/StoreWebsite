@@ -1,0 +1,87 @@
+﻿@page "/register"
+@using ShopOnline.Models.Dtos
+@using ShopOnline.Web.Services
+@inject IUserService userService
+@inject NavigationManager navigationManager
+
+<div>
+    <div class="col-lg-4 offset-lg-4 pt-4 pb-4 border">
+        <EditForm Model="@newUser" OnValidSubmit="RegisterUser" FormName="RegisterForm">
+            <DataAnnotationsValidator />
+            <div class="mb-3 text-center flex-column">
+                <h3>Rejestracja</h3>
+            </div>
+            <div class="mb-3">
+                <label>Email</label>
+                <InputText @bind-Value="newUser.Email" class="form-control" placeholder="Email"></InputText>
+                <ValidationMessage For="() => newUser.Email" />
+            </div>
+            <div class="mb-3">
+                <label>Hasło</label>
+                <InputText @bind-Value="newUser.Password" type="password" class="form-control" placeholder="Hasło"></InputText>
+                <ValidationMessage For="() => newUser.Password" />
+            </div>
+            <div class="mb-3">
+                <label>Powtórz hasło</label>
+                <InputText @bind-Value="confirmPassword" type="password" class="form-control" placeholder="Powtórz hasło"></InputText>
+                <ValidationMessage For="() => confirmPassword" />
+            </div>
+            <div class="mb-3">
+                <label>Nazwa Użytkownika</label>
+                <InputText @bind-Value="newUser.UserName" class="form-control" placeholder="Nazwa Użytkownika"></InputText>
+                <ValidationMessage For="() => newUser.UserName" />
+            </div>
+            <div class="mb-3">
+                <label>Adres</label>
+                <InputText @bind-Value="newUser.Miasto" class="form-control" placeholder="Miasto"></InputText>
+                <ValidationMessage For="() => newUser.Miasto" />
+                <InputText @bind-Value="newUser.Ulica" class="form-control" placeholder="Ulica"></InputText>
+                <ValidationMessage For="() => newUser.Ulica" />
+                <InputText @bind-Value="newUser.NumerDomu" class="form-control" placeholder="NumerDomu"></InputText>
+                <ValidationMessage For="() => newUser.NumerDomu" />
+            </div>
+            <div class="mb-3 text-center">
+                <span class="text-danger">@errorMessage</span>
+            </div>
+            <div class="mb-3 d-grid gap-2">
+                <button type="submit" class="btn btn-primary">Zarejestruj</button>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    private UserDto newUser = new UserDto();
+    private string? confirmPassword;
+    private string? errorMessage;
+
+    private async Task RegisterUser()
+    {
+        try
+        {
+            // Sprawdź, czy nowy użytkownik jest prawidłowy
+            if (newUser == null)
+            {
+                errorMessage = "Nowy użytkownik jest wymagany.";
+                return;
+            }
+
+            // Wywołaj metodę serwisu użytkownika, aby dodać nowego użytkownika
+            var addedUser = await userService.AddUser(newUser);
+
+            // Sprawdź, czy użytkownik został pomyślnie dodany
+            if (addedUser == null)
+            {
+                errorMessage = "Rejestracja nie powiodła się.";
+                return;
+            }
+
+            // Przekieruj do strony logowania po pomyślnej rejestracji
+            navigationManager.NavigateTo("/login");
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Błąd: {ex.Message}";
+        }
+    }
+}
