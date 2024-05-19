@@ -8,6 +8,8 @@ namespace ShopOnline.Web.Services.Contracts
         Task<UserDto> GetUser(int id);
         Task<UserDto> AddUser(UserDto user);
         Task DeleteUser(int userId); // Nowa metoda
+        Task<UserDto> UpdateUser(UserDto user); // Dodaj tę metodę
+
 
     }
 }

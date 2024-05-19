@@ -24,31 +24,37 @@ else
                              style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
                                 <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
                                  alt="Avatar" class="img-fluid my-5" style="width: 80px;" />
+                                <button class="btn btn-primary mt-3" @onclick="EditUser">Edytuj użytkownika</button>
+
                                 <h5>@user.UserName</h5>
-                                <button class="btn btn-danger mt-3" @onclick="DeleteUser">Usuń użytkownika</button>
-                                <button class="btn btn-dark mt-3" @onclick="Logout">Wyloguj</button>
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body p-4">
-                                    <h6>Information</h6>
+                                    <h6>Informacje</h6>
                                     <hr class="mt-0 mb-4">
                                     <div class="row pt-1">
                                         <div class="col-6 mb-3">
                                             <h6>Email</h6>
                                             <p class="text-muted">@user.Email</p>
                                         </div>
+                                        <div class="col-6 mb-3">
+                                            <h6>Nazwa użytkownika</h6>
+                                            <p class="text-muted">@user.UserName</p>
+                                        </div>
                                     </div>
                                     <h6>Adres</h6>
                                     <hr class="mt-0 mb-4">
                                     <div class="row pt-1">
-                                        <div class="col-6 mb-3">
-                                            <h6>@user.Miasto @user.Ulica @user.NumerDomu</h6>
+                                        <div class="col-10 mb-3">
+                                            <h6>@user.Miasto, ulica @user.Ulica @user.NumerDomu</h6>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <button class="btn btn-danger mt-3" @onclick="DeleteUser">Usuń użytkownika</button>
+                    <button class="btn btn-dark mt-3" @onclick="Logout">Wyloguj</button>
                 </div>
             </div>
         </div>
@@ -70,6 +76,11 @@ else
         {
             user = null;
         }
+    }
+    private void EditUser()
+    {
+        // Przekieruj na stronę rejestracji, przekazując obecne dane użytkownika jako parametr
+        NavigationManager.NavigateTo($"/edit-profile");
     }
 
     private async Task DeleteUser()
