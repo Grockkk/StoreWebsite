@@ -145,31 +145,5 @@ namespace ShopOnline.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
-        // Endpoint do aktualizacji użytkownika
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(int id, [FromBody] User userDto)
-        {
-            try
-            {
-                if (userDto == null || id != userDto.Id)
-                {
-                    return BadRequest();
-                }
-
-                var updatedUser = await userRepository.UpdateUser(userDto);
-
-                if (updatedUser == null)
-                {
-                    return NotFound();
-                }
-
-                return Ok(updatedUser);
-            }
-            catch (Exception ex)
-            {
-                // Logowanie błędu
-                return StatusCode(500, ex.Message);
-            }
-        }
     }
 }
