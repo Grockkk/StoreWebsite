@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ShopOnline.Api.Entities;
+using ShopOnline.Api.Repositories;
 using ShopOnline.Api.Repositories.Contracts;
 using ShopOnline.Models.Dtos;
 using System.Collections.Generic;
@@ -13,10 +14,13 @@ namespace ShopOnline.Api.Controllers
     public class CommentController : ControllerBase
     {
         private readonly ICommentRepository _commentRepository;
+        private readonly IUserRepository _userRepository;
 
-        public CommentController(ICommentRepository commentRepository)
+
+        public CommentController(ICommentRepository commentRepository, IUserRepository userRepository)
         {
             _commentRepository = commentRepository;
+            _userRepository = userRepository;
         }
 
         [HttpGet("{productId}")]
@@ -30,7 +34,8 @@ namespace ShopOnline.Api.Controllers
                 Content = c.Content,
                 CreatedAt = c.CreatedAt,
                 ProductId = c.ProductId,
-                UserId = c.UserId
+                Value = c.Value,
+                UserName = c.UserName
             });
 
             return Ok(commentDtos);
@@ -39,12 +44,15 @@ namespace ShopOnline.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<CommentDto>> AddComment(CommentDto commentDto)
         {
+            var users = await this._userRepository.GetUsers();
+            var user = users.FirstOrDefault(x => x.Autentykacja == true);
             var comment = new Comment
             {
                 Content = commentDto.Content,
                 CreatedAt = DateTime.UtcNow,
                 ProductId = commentDto.ProductId,
-                UserId = commentDto.UserId
+                UserName = user.UserName,
+                Value = commentDto.Value,
             };
 
             var addedComment = await _commentRepository.AddComment(comment);

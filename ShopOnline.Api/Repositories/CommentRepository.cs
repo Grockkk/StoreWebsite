@@ -18,13 +18,16 @@ namespace ShopOnline.Api.Repositories
 
         public async Task<Comment> AddComment(Comment comment)
         {
+            await _dbContext.Comments.AddAsync(comment);
             await _dbContext.SaveChangesAsync();
             return comment;
         }
 
-        public Task<IEnumerable<Comment>> GetCommentsByProduct(int productId)
+        public async Task<IEnumerable<Comment>> GetCommentsByProduct(int productId)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Comments
+                                   .Where(c => c.ProductId == productId)
+                                   .ToListAsync();
         }
     }
 }

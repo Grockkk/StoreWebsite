@@ -28,7 +28,7 @@ namespace ShopOnline.Web.Pages
         public NavigationManager NavigationManager { get; set; }
 
         public ProductDto Product { get; set; }
-
+        public UserDto User { get; set; }
         public string ErrorMessage { get; set; }
 
         private List<CartItemDto> ShoppingCartItems { get; set; }
@@ -37,6 +37,8 @@ namespace ShopOnline.Web.Pages
         {
             try
             {
+                var users = await UserService.GetUsers();
+                User = users.FirstOrDefault(x => x.Autentykacja == true);
                 Product = await ProductService.GetItem(Id);
                 ShoppingCartItems = await ManageCartItemsLocalStorageService.GetCollection();
             }

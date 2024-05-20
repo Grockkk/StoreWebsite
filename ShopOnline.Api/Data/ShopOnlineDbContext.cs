@@ -3,9 +3,9 @@ using ShopOnline.Api.Entities;
 
 namespace ShopOnline.Api.Data
 {
-    public class ShopOnlineDbContext:DbContext
+    public class ShopOnlineDbContext : DbContext
     {
-        public ShopOnlineDbContext(DbContextOptions<ShopOnlineDbContext> options):base(options)
+        public ShopOnlineDbContext(DbContextOptions<ShopOnlineDbContext> options) : base(options)
         {
 
         }
@@ -13,19 +13,19 @@ namespace ShopOnline.Api.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-			// Products
+            // Products
             // laptopy
-			modelBuilder.Entity<Product>().HasData(new Product
-			{
-				Id = 1,
-				Name = "Laptop biznesowy Dell Vostro",
-				Description = "Laptop biznesowy Dell Vostro, 8GB RAM, Dysk SSD, Windows 11",
-				ImageURL = "photos/laptopy/dell-1.jpg",
-				Price = 2749,
-				Qty = 20,
-				CategoryId = 1
+            modelBuilder.Entity<Product>().HasData(new Product
+            {
+                Id = 1,
+                Name = "Laptop biznesowy Dell Vostro",
+                Description = "Laptop biznesowy Dell Vostro, 8GB RAM, Dysk SSD, Windows 11",
+                ImageURL = "photos/laptopy/dell-1.jpg",
+                Price = 2749,
+                Qty = 20,
+                CategoryId = 1
 
-			});
+            });
             modelBuilder.Entity<Product>().HasData(new Product
             {
                 Id = 2,
@@ -380,12 +380,12 @@ namespace ShopOnline.Api.Data
 
             //Add users
             modelBuilder.Entity<User>().HasData(new User
-			{
+            {
                 Id = 1,
-				UserName = "Bob",
+                UserName = "Bob",
                 Password = "1234",
                 Autentykacja = false,
-                Email= "Bob@kompik.pl",
+                Email = "Bob@kompik.pl",
                 Miasto = "Kraków",
                 Ulica = "Boczna",
                 NumerDomu = "15"
@@ -406,43 +406,144 @@ namespace ShopOnline.Api.Data
 
             //Create Shopping Cart for  every Users
             modelBuilder.Entity<Cart>().HasData(new Cart
-			{
-				Id = 1,
-				UserId = 1
+            {
+                Id = 1,
+                UserId = 1
 
-			});
+            });
             modelBuilder.Entity<Cart>().HasData(new Cart
             {
                 Id = 2,
                 UserId = 2
 
             });
+            modelBuilder.Entity<Cart>().HasData(new Cart
+            {
+                Id = 3,
+                UserId = 3
 
+            });
+            modelBuilder.Entity<Cart>().HasData(new Cart
+            {
+                Id = 4,
+                UserId = 4
+
+            });
+            modelBuilder.Entity<Cart>().HasData(new Cart
+            {
+                Id = 5,
+                UserId = 5
+
+            });
+            modelBuilder.Entity<Cart>().HasData(new Cart
+            {
+                Id = 6,
+                UserId = 6
+
+            });
+            modelBuilder.Entity<Cart>().HasData(new Cart
+            {
+                Id = 7,
+                UserId = 7
+
+            });
+            modelBuilder.Entity<Cart>().HasData(new Cart
+            {
+                Id = 8,
+                UserId = 8
+
+            });
+            modelBuilder.Entity<Cart>().HasData(new Cart
+            {
+                Id = 9,
+                UserId = 9
+
+            });
+            modelBuilder.Entity<Cart>().HasData(new Cart
+            {
+                Id = 10,
+                UserId = 10
+
+            });
+            modelBuilder.Entity<Cart>().HasData(new Cart
+            {
+                Id = 11,
+                UserId = 11
+
+            });
+            modelBuilder.Entity<Cart>().HasData(new Cart
+            {
+                Id = 12,
+                UserId = 12
+
+            });
+            modelBuilder.Entity<Cart>().HasData(new Cart
+            {
+                Id = 13,
+                UserId = 13
+
+            });
+            modelBuilder.Entity<Cart>().HasData(new Cart
+            {
+                Id = 14,
+                UserId = 14
+
+            });
+            modelBuilder.Entity<Cart>().HasData(new Cart
+            {
+                Id = 15,
+                UserId = 15
+
+            });
+            modelBuilder.Entity<Cart>().HasData(new Cart
+            {
+                Id = 16,
+                UserId = 16
+
+            });
+            modelBuilder.Entity<Cart>().HasData(new Cart
+            {
+                Id = 17,
+                UserId = 17
+
+            });
+            modelBuilder.Entity<Cart>().HasData(new Cart
+            {
+                Id = 18,
+                UserId = 18
+
+            });
+            modelBuilder.Entity<Cart>().HasData(new Cart
+            {
+                Id = 19,
+                UserId = 19
+
+            });
             //Add Product Categories
             modelBuilder.Entity<ProductCategory>().HasData(new ProductCategory
-			{
-				Id = 1,
-				Name = "Laptopy",
-				IconCSS = "fas fa-laptop"
-			});
-			modelBuilder.Entity<ProductCategory>().HasData(new ProductCategory
-			{
-				Id = 2,
-				Name = "Oprogramowanie",
-				IconCSS = "fa-solid fa-window-restore"
+            {
+                Id = 1,
+                Name = "Laptopy",
+                IconCSS = "fas fa-laptop"
             });
-			modelBuilder.Entity<ProductCategory>().HasData(new ProductCategory
-			{
-				Id = 3,
-				Name = "Akcesoria",
-				IconCSS = "fas fa-headphones"
-			});
-			modelBuilder.Entity<ProductCategory>().HasData(new ProductCategory
-			{
-				Id = 4,
-				Name = "Podzespoły",
-				IconCSS = "fas fa-microchip"
-			});
+            modelBuilder.Entity<ProductCategory>().HasData(new ProductCategory
+            {
+                Id = 2,
+                Name = "Oprogramowanie",
+                IconCSS = "fa-solid fa-window-restore"
+            });
+            modelBuilder.Entity<ProductCategory>().HasData(new ProductCategory
+            {
+                Id = 3,
+                Name = "Akcesoria",
+                IconCSS = "fas fa-headphones"
+            });
+            modelBuilder.Entity<ProductCategory>().HasData(new ProductCategory
+            {
+                Id = 4,
+                Name = "Podzespoły",
+                IconCSS = "fas fa-microchip"
+            });
             modelBuilder.Entity<ProductCategory>().HasData(new ProductCategory
             {
                 Id = 5,
@@ -456,14 +557,24 @@ namespace ShopOnline.Api.Data
                 IconCSS = "fa-solid fa-box-archive"
             });
 
-
+            modelBuilder.Entity<Comment>().HasData(new Comment
+            {
+                Id = 1,
+                UserName = "Bob1",
+                Content = "Bardzo dobry laptop",
+                CreatedAt = DateTime.Now,
+                ProductId = 1,
+                Value = 5
+            });
         }
 
-        public DbSet<Cart> Carts { get; set; }
-        public DbSet<CartItem> CartItems { get; set; }
-        public DbSet<Product> Products { get; set; }
-        public DbSet<ProductCategory> ProductCategories { get; set; }
-        public DbSet<User> Users { get; set; }
+public DbSet<Cart> Carts { get; set; }
+public DbSet<CartItem> CartItems { get; set; }
+public DbSet<Product> Products { get; set; }
+public DbSet<ProductCategory> ProductCategories { get; set; }
+public DbSet<User> Users { get; set; }
+public DbSet<Comment> Comments { get; set; }
+
 
     }
 }
