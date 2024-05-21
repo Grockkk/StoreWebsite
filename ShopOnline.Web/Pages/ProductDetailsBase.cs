@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components;
 using ShopOnline.Models.Dtos;
 using ShopOnline.Web.Services.Contracts;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ShopOnline.Web.Pages
 {
@@ -25,6 +28,9 @@ namespace ShopOnline.Web.Pages
         public IManageCartItemsLocalStorageService ManageCartItemsLocalStorageService { get; set; }
 
         [Inject]
+        public ICommentService CommentService { get; set; }
+
+        [Inject]
         public NavigationManager NavigationManager { get; set; }
 
         public ProductDto Product { get; set; }
@@ -32,6 +38,8 @@ namespace ShopOnline.Web.Pages
         public string ErrorMessage { get; set; }
 
         private List<CartItemDto> ShoppingCartItems { get; set; }
+        public List<CommentDto> Comments { get; set; }
+        public CommentDto NewComment { get; set; } = new CommentDto();
 
         protected override async Task OnInitializedAsync()
         {
@@ -41,6 +49,7 @@ namespace ShopOnline.Web.Pages
                 User = users.FirstOrDefault(x => x.Autentykacja == true);
                 Product = await ProductService.GetItem(Id);
                 ShoppingCartItems = await ManageCartItemsLocalStorageService.GetCollection();
+                await LoadComments();
             }
             catch (Exception ex)
             {
@@ -87,6 +96,27 @@ namespace ShopOnline.Web.Pages
 
                 ShoppingCartService.RaiseEventOnShoppingCartChanged(ShoppingCartItems.Sum(i => i.Qty));
             }
+        }
+
+        private async Task LoadComments()
+        {
+            try
+            {
+                Comments = await CommentService.GetCommentsByProduct(Product.Id);
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = ex.Message;
+            }
+        }
+
+        private async Task HandleValidSubmit()
+        {
+            NewComment.ProductId = Product.Id;
+            NewComment.UserName = User.UserName; // Assign the username
+            var addedComment = await CommentService.AddComment(NewComment);
+            Comments.Add(addedComment);
+            NewComment = new CommentDto(); // Reset the form
         }
     }
 }

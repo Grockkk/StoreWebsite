@@ -21,7 +21,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
-
+builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IManageUsersLocalStorageService, ManageUserLocalStorageService>();
 builder.Services.AddScoped<IManageProductsLocalStorageService, ManageProductsLocalStorageService>();

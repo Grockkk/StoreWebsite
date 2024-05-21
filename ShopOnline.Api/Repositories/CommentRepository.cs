@@ -29,5 +29,25 @@ namespace ShopOnline.Api.Repositories
                                    .Where(c => c.ProductId == productId)
                                    .ToListAsync();
         }
+
+        public async Task<Comment> GetComment(int id)
+        {
+            return await _dbContext.Comments.FirstOrDefaultAsync(c => c.Id == id);
+        }
+
+
+        public async Task DeleteComment(int id)
+        {
+            var comment = await GetComment(id);
+            if (comment != null)
+            {
+                _dbContext.Comments.Remove(comment);
+                await _dbContext.SaveChangesAsync();
+            }
+        }
+        public async Task<int?> GetLastCommentId()
+        {
+            return await _dbContext.Comments.MaxAsync(c => (int?)c.Id);
+        }
     }
 }

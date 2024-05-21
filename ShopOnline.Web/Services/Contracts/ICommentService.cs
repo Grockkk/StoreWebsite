@@ -6,7 +6,7 @@ namespace ShopOnline.Web.Services.Contracts
 {
     public interface ICommentService
     {
-        Task<IEnumerable<CommentDto>> GetCommentsByProduct(int productId);
+        Task<List<CommentDto>> GetCommentsByProduct(int productId);
         Task<CommentDto> AddComment(CommentDto commentDto);
     }
 }

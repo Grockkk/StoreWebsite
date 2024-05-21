@@ -564,7 +564,16 @@ namespace ShopOnline.Api.Data
                 Content = "Bardzo dobry laptop",
                 CreatedAt = DateTime.Now,
                 ProductId = 1,
-                Value = 5
+                Value = 5.0
+            });
+            modelBuilder.Entity<Comment>().HasData(new Comment
+            {
+                Id = 2,
+                UserName = "Adam",
+                Content = "Słaby laptop",
+                CreatedAt = DateTime.Now,
+                ProductId = 2,
+                Value = 1.5
             });
         }
 

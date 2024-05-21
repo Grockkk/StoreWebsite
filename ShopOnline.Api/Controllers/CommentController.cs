@@ -46,6 +46,7 @@ namespace ShopOnline.Api.Controllers
         {
             var users = await this._userRepository.GetUsers();
             var user = users.FirstOrDefault(x => x.Autentykacja == true);
+
             var comment = new Comment
             {
                 Content = commentDto.Content,
@@ -61,6 +62,26 @@ namespace ShopOnline.Api.Controllers
             commentDto.CreatedAt = addedComment.CreatedAt;
 
             return CreatedAtAction(nameof(GetCommentsByProduct), new { productId = commentDto.ProductId }, commentDto);
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            try
+            {
+                var userToDelete = await _commentRepository.GetCommentsByProduct(id);
+                if (userToDelete == null)
+                {
+                    return NotFound();
+                }
+
+                await _commentRepository.DeleteComment(id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                // Log exception
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
     }
 }
