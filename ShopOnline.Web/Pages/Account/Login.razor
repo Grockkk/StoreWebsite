@@ -13,7 +13,7 @@
         <EditForm Model="@Model" OnValidSubmit="Authenticate" FormName="LoginForm">
             <DataAnnotationsValidator />
             <div class="mb-3 text-center flex-column">
-                <h3>LOGIN</h3>
+                <h3>LOGOWANIE</h3>
             </div>
             <div class="mb-3 ">
                 <label>Email</label>
@@ -21,17 +21,19 @@
                 <ValidationMessage For="() => Model.Email" />
             </div>
             <div class="mb-3 ">
-                <label>Password</label>
-                <InputText @bind-Value="Model.Password" type="password" class="form-control" placeholder="Password"></InputText>
+                <label>Hasło</label>
+                <InputText @bind-Value="Model.Password" type="password" class="form-control" placeholder="Hasło"></InputText>
                 <ValidationMessage For="() => Model.Password" />
             </div>
             <div class="mb-3 text-center">
                 <span class="text-danger">@errorMessage</span>
             </div>
             <div class="mb-3 d-grid gap-2">
-                <button type="submit" class="btn btn-primary">Login</button>
+                <button type="submit" class="btn btn-primary">Zaloguj</button>
             </div>
-            <a href="/register">Nie masz konta? Załóż tutaj</a>
+            <div class="mb-3 text-center flex-column">
+                <a href="/register">Nie masz konta? Załóż tutaj</a>
+            </div>
 
         </EditForm>
     </div>

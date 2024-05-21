@@ -59,6 +59,28 @@
     {
         try
         {
+            // Sprawdź, czy nowe hasło zostało potwierdzone poprawnie
+            if (newUser.Password != confirmPassword)
+            {
+                errorMessage = "Nowe hasło i potwierdzenie hasła nie pasują do siebie.";
+                return;
+            }
+
+            if (!newUser.Email.Contains("@") || !newUser.Email.Contains(".pl"))
+            {
+                errorMessage = "Wprowadź poprawny Email.";
+                return;
+            }
+
+            var usersDto = await userService.GetUsers();
+
+
+            if (usersDto.SingleOrDefault(x => x.Email == newUser.Email) != null || usersDto.SingleOrDefault(x => x.UserName == newUser.UserName) != null)
+            {
+                errorMessage = "Taki użytkownik już istnieje, wprowadź inny Email lub Nazwę użytkownika";
+                return;
+            }
+
             // Sprawdź, czy nowy użytkownik jest prawidłowy
             if (newUser == null)
             {

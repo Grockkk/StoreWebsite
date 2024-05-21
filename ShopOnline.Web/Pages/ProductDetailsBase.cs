@@ -56,45 +56,55 @@ namespace ShopOnline.Web.Pages
                 ErrorMessage = ex.Message;
             }
         }
-
         protected async Task AddToCart_Click(CartItemToAddDto cartItemToAddDto)
         {
-            var users = await UserService.GetUsers();
-            var user = users.SingleOrDefault(u => u.Autentykacja);
-
-            if (user != null)
+            try
             {
-                cartItemToAddDto.CartId = user.Id;
-                var existingItem = ShoppingCartItems.FirstOrDefault(item => item.ProductId == cartItemToAddDto.ProductId);
+                var users = await UserService.GetUsers();
+                User = users.FirstOrDefault(x => x.Autentykacja == true);
 
-                if (existingItem != null)
+                if (User != null)
                 {
-                    existingItem.Qty += cartItemToAddDto.Qty;
-                    existingItem.TotalPrice = existingItem.Price * existingItem.Qty;
-                    await ShoppingCartService.UpdateQty(new CartItemQtyUpdateDto
+                    cartItemToAddDto.CartId = User.Id;
+                    var existingItem = ShoppingCartItems.FirstOrDefault(item => item.ProductId == cartItemToAddDto.ProductId);
+
+                    if (existingItem != null)
                     {
-                        CartItemId = existingItem.Id,
-                        Qty = existingItem.Qty
-                    });
+                        existingItem.Qty += cartItemToAddDto.Qty;
+                        existingItem.TotalPrice = existingItem.Price * existingItem.Qty;
+                        await ShoppingCartService.UpdateQty(new CartItemQtyUpdateDto
+                        {
+                            CartItemId = existingItem.Id,
+                            Qty = existingItem.Qty
+                        });
+                    }
+                    else
+                    {
+                        var addedItem = await ShoppingCartService.AddItem(cartItemToAddDto);
+                        ShoppingCartItems.Add(new CartItemDto
+                        {
+                            Id = addedItem.Id,
+                            ProductId = addedItem.ProductId,
+                            ProductName = Product.Name,
+                            ProductImageURL = Product.ImageURL,
+                            Price = Product.Price,
+                            Qty = cartItemToAddDto.Qty,
+                            TotalPrice = Product.Price * cartItemToAddDto.Qty
+                        });
+                    }
+
+                    await ManageCartItemsLocalStorageService.SaveCollection(ShoppingCartItems);
+
+                    ShoppingCartService.RaiseEventOnShoppingCartChanged(ShoppingCartItems.Sum(i => i.Qty));
                 }
                 else
                 {
-                    var addedItem = await ShoppingCartService.AddItem(cartItemToAddDto);
-                    ShoppingCartItems.Add(new CartItemDto
-                    {
-                        Id = addedItem.Id,
-                        ProductId = addedItem.ProductId,
-                        ProductName = Product.Name,
-                        ProductImageURL = Product.ImageURL,
-                        Price = Product.Price,
-                        Qty = cartItemToAddDto.Qty,
-                        TotalPrice = Product.Price * cartItemToAddDto.Qty
-                    });
+                    NavigationManager.NavigateTo("/login");
                 }
-
-                await ManageCartItemsLocalStorageService.SaveCollection(ShoppingCartItems);
-
-                ShoppingCartService.RaiseEventOnShoppingCartChanged(ShoppingCartItems.Sum(i => i.Qty));
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = ex.Message;
             }
         }
 
@@ -108,15 +118,6 @@ namespace ShopOnline.Web.Pages
             {
                 ErrorMessage = ex.Message;
             }
-        }
-
-        private async Task HandleValidSubmit()
-        {
-            NewComment.ProductId = Product.Id;
-            NewComment.UserName = User.UserName; // Assign the username
-            var addedComment = await CommentService.AddComment(NewComment);
-            Comments.Add(addedComment);
-            NewComment = new CommentDto(); // Reset the form
         }
     }
 }
