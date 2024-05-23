@@ -2,6 +2,7 @@
 using ShopOnline.Web.Services.Contracts;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -31,6 +32,23 @@ namespace ShopOnline.Web.Services
             response.EnsureSuccessStatusCode();
 
             return await response.Content.ReadFromJsonAsync<CommentDto>();
+        }
+
+        // Nowa metoda do pobierania ocen dla danego produktu
+        public async Task<double> GetAverageRatingByProduct(int productId)
+        {
+            var comments = await GetCommentsByProduct(productId);
+            if (comments == null || comments.Count == 0)
+            {
+                // Jeśli brak komentarzy, zwróć 0 jako domyślną ocenę
+                return 0;
+            }
+            else
+            {
+                // Oblicz średnią ocenę na podstawie komentarzy
+                var averageRating = comments.Select(c => c.Value).Average();
+                return averageRating;
+            }
         }
     }
 }

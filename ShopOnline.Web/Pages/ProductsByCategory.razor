@@ -1,23 +1,62 @@
 ﻿@page "/ProductsByCategory/{CategoryId:int}"
 @inherits ProductsByCategoryBase
 
-@if(Products == null && ErrorMessage == null)
+@if (Products == null && ErrorMessage == null)
 {
-    <DisplaySpinner/>
+    <DisplaySpinner />
 }
-else if(ErrorMessage != null)
+else if (ErrorMessage != null)
 {
-    <DisplayError ErrorMessage = "@ErrorMessage" />
+    <DisplayError ErrorMessage="@ErrorMessage" />
 }
 else
 {
-    <h3>Products (@CategoryName)</h3>
-   
-    @if(Products.Count() > 0)
+    <h3>Produkty (@CategoryName)</h3>
+
+    @if (Products.Count() > 0)
     {
-        <div class = "row mt-3">
-          <DisplayProducts Products = "@Products"></DisplayProducts>
+        <div class="row mt-3">
+            <div class="col-md-3 mb-2">
+                <label for="sortSelector">Sortuj według:</label>
+                <select id="sortSelector" @onchange="SortProducts">
+                    <option value="priceAsc">Cena: rosnąco</option>
+                    <option value="priceDesc">Cena: malejąco</option>
+                    <option value="ratingDesc">Oceny: malejąco</option>
+                </select>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <DisplayProducts Products="@SortedProducts"></DisplayProducts>
         </div>
     }
+}
 
+@code {
+    private IEnumerable<ProductDto> SortedProducts { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+        if (Products != null && Products.Any())
+        {
+            SortedProducts = Products;
+        }
+    }
+
+    private void SortProducts(ChangeEventArgs e)
+    {
+        var sortOrder = e.Value.ToString();
+        switch (sortOrder)
+        {
+            case "priceAsc":
+                SortedProducts = Products.OrderBy(p => p.Price);
+                break;
+            case "priceDesc":
+                SortedProducts = Products.OrderByDescending(p => p.Price);
+                break;
+            default:
+                SortedProducts = Products;
+                break;
+        }
+    }
 }

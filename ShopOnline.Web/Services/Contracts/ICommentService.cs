@@ -8,5 +8,7 @@ namespace ShopOnline.Web.Services.Contracts
     {
         Task<List<CommentDto>> GetCommentsByProduct(int productId);
         Task<CommentDto> AddComment(CommentDto commentDto);
+        Task<double> GetAverageRatingByProduct(int productId);
+
     }
 }

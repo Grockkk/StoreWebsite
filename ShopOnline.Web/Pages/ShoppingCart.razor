@@ -11,7 +11,7 @@ else if (ErrorMessage != null)
 }
 else
 {
-    <h3 class="mb-5">Shopping Cart</h3>
+    <h3 class="mb-5">Koszyk</h3>
     @if(ShoppingCartItems.Count() > 0)
     {
       <div class = "row mb-5">
@@ -26,12 +26,12 @@ else
                         <h5>@item.ProductName</h5>
                         <div class="mb-4">@item.ProductDescription</div>
                         <span>
-                             Price: <b>@item.Price.ToString("C")</b>
+                             Cena: <b>@item.Price.ToString("C")</b>
                             <input @oninput = "()=>UpdateQty_Input(item.Id)"
                             type="number" @bind="@item.Qty" />
                             <button data-itemId="@item.Id" class="btn btn-info btn-sm update-qty"
                                 @onclick="(() => UpdateQtyCartItem_Click(item.Id, item.Qty))"
-                            >Update Qty</button>
+                            >Żmień ilość</button>
                         </span>
                         <div>
                             <button  @onclick ="(() => DeleteCartItem_Click(item.Id))"
@@ -43,11 +43,11 @@ else
             }
         </div>
         <div class="col-md-3">
-            <h5>Cart Summary</h5>
+            <h5>Podsumowanie</h5>
             <div class="mt-2">
-                <div>Total - (@TotalQuantity items)&nbsp;<b>@TotalPrice</b></div>
+                <div>Łącznie - (@TotalQuantity)&nbsp;<b>@TotalPrice</b></div>
                 <a href="Checkout" class="btn btn-success">
-                    <span class="oi oi-credit-card"></span>&nbsp; Proceed to Checkout 
+                    <span class="oi oi-credit-card"></span>&nbsp; Przejdź do płatności
                 </a>
             </div>
         </div>
@@ -55,7 +55,7 @@ else
     }
     else
     {
-        <h4>There are currently no items in your shopping cart</h4>
+        <h4>Koszyk jest pusty</h4>
     }
 
 }
