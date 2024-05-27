@@ -118,7 +118,7 @@ namespace ShopOnline.Web.Pages
 
         private void SetTotalPrice()
         {
-            TotalPrice = this.ShoppingCartItems.Sum(p => p.TotalPrice).ToString("C");
+            TotalPrice = this.ShoppingCartItems.Sum(p => p.TotalPrice).ToString() + "zł";
         }
         private void SetTotalQuantity()
         {

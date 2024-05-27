@@ -34,12 +34,12 @@
                         {
                             <tr>
                                 <td>@item.Qty x @item.ProductName</td>
-                                <td>@item.TotalPrice.ToString("C")</td>
+                                <td>@item.TotalPrice.ToString() zł</td>
                             </tr>
                         }
                         <tr>
                             <td><b>Łącznie</b></td>
-                            <td><b>@PaymentAmount.ToString("C")</b></td>
+                            <td><b>@PaymentAmount.ToString() zł</b></td>
                         </tr>
                     </tbody>
                 </table>

@@ -11,7 +11,7 @@ else if (ErrorMessage != null)
 }
 else
 {
-    <h3>Produkty (@CategoryName)</h3>
+    <h3>Products (@CategoryName)</h3>
 
     @if (Products.Count() > 0)
     {
@@ -21,7 +21,6 @@ else
                 <select id="sortSelector" @onchange="SortProducts">
                     <option value="priceAsc">Cena: rosnąco</option>
                     <option value="priceDesc">Cena: malejąco</option>
-                    <option value="ratingDesc">Oceny: malejąco</option>
                 </select>
             </div>
         </div>
