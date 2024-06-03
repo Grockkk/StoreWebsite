@@ -77,7 +77,7 @@
                 return;
             }
 
-            if (editedUser.Email.Contains("@") || editedUser.Email.Contains(".pl"))
+            if (!editedUser.Email.Contains("@") || !editedUser.Email.Contains(".pl"))
             {
                 errorMessage = "Wprowadź poprawny Email.";
                 return;

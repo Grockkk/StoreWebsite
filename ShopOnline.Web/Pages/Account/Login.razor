@@ -50,13 +50,19 @@
         // Pobierz ID zalogowanego użytkownika
         var user = (await userService.GetUsers()).FirstOrDefault(x => x.Email == Model.Email);
 
+        if (user == null || user.Password != Model.Password)
+        {
+            errorMessage = "Błędne dane";
+
+            return;
+        }
         // Wywołaj metodę ToggleAuthentication
         var toggleResponse = await httpClient.PutAsync($"api/user/{user.Id}/toggle-authentication", null);
 
         // Sprawdź, czy metoda ToggleAuthentication zakończyła się sukcesem
         if (!toggleResponse.IsSuccessStatusCode)
         {
-            errorMessage = "Failed to toggle authentication status.";
+            errorMessage = "Nie udało się autentykować";
             return;
         }
 
